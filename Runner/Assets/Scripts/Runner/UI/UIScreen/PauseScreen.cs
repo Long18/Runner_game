@@ -1,0 +1,45 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace Runner.UI
+{
+    public class PauseScreen : UIScreen
+    {
+        [SerializeField]
+        protected Button ResumeButton = null;
+        [SerializeField]
+        protected Button HomeButton = null;
+        [SerializeField]
+        protected Button SoundButton = null;
+        [SerializeField]
+        protected Button ExitButton = null;
+
+        private void Start()
+        {
+            ResumeButton.SetButtonAction(() =>
+            {
+                var inGameScreen = UIManager.Singleton.UISCREENS.Find(el => el.ScreenInfo == UIScreenInfo.IN_GAME_SCREEN);
+                UIManager.Singleton.OpenScreen(inGameScreen);
+                GameManager.Singleton.StartGame();
+            });
+
+            HomeButton.SetButtonAction(() =>
+            {
+                GameManager.Singleton.Reset();
+                GameManager.Singleton.Init();
+            });
+
+            ExitButton.SetButtonAction(() =>
+            {
+                GameManager.Singleton.ExitGame();
+            });
+        }
+
+        public override void UpdateScreenStatus(bool open)
+        {
+            base.UpdateScreenStatus(open);
+        }
+    }
+}
